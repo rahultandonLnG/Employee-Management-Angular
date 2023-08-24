@@ -1,0 +1,45 @@
+<div class="card mb-5 shadow">
+    <h4 class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        Employee List
+        <button class="custom-button" (click)="loadEmployees()">Reload Employee List <span
+                class="refresh-icon">&#8635;</span></button>
+    </h4>
+    <div class="card-body">
+        <div class="mb-3">
+            <label for="searchInput" class="form-label fw-bold">Search Employees:</label>
+            <input type="text" class="form-control" id="searchInput" [(ngModel)]="searchQuery" (input)="applyFilter()" placeholder="Type here to search...">
+        </div>
+        <table class="table table-bordered" *ngIf="employees.length > 0; else noData">
+            <thead class="table-primary">
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Gender</th>
+                    <th>Permanent</th>
+                    <th class="px-5">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let employees of filteredEmployees">
+                    <td>{{ employees.firstName | uppercase }}</td>
+                    <td>{{ employees.lastName | uppercase }}</td>
+                    <td>{{ employees.email }}</td>
+                    <td>{{ employees.department | uppercase }}</td>
+                    <td>{{ employees.gender | uppercase }}</td>
+                    <td>{{ employees.permanent ? 'Yes' : 'No' }}</td>
+                    <td>
+                        <button class="btn m-2 btn-warning" (click)="openUpdateModal(employees)">Edit</button>
+                        <button class="btn m-2 btn-danger" (click)="deleteEmployee(employees)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ng-template #noData>
+            <div class="alert alert-danger">
+                No data found.
+            </div>
+        </ng-template>
+    </div>
+</div>

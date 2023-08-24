@@ -1,0 +1,102 @@
+<div class="card mb-4 shadow">
+    <h4 class="card-header bg-primary text-white p-3">Add New Employee</h4>
+    <div class="card-body">
+        <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label custom-label">First Name:</label>
+                    <input type="text" id="firstName" pattern="^[A-Za-z ]*$" formControlName="firstName"
+                        class="form-control custom-input" placeholder="Enter first name">
+                    <div class="invalid-feedback small"
+                        *ngIf="employeeForm?.get('firstName')?.hasError('required') && employeeForm?.get('firstName')?.touched">
+                        First name is required.
+                    </div>
+                    <div class="invalid-feedback small"
+                        *ngIf="employeeForm?.get('firstName')?.hasError('pattern') && employeeForm?.get('firstName')?.touched">
+                        Invalid format. Only letters and spaces are allowed.
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="lastName" class="form-label custom-label">Last Name:</label>
+                    <input type="text" class="form-control custom-input" pattern="^[A-Za-z ]*$" id="lastName"
+                        formControlName="lastName" placeholder="Enter last name">
+                    <div class="invalid-feedback small"
+                        *ngIf="employeeForm?.get('lastName')?.hasError('required') && employeeForm.get('lastName')?.touched">
+                        Last name is required.
+                    </div>
+                    <div class="invalid-feedback small"
+                        *ngIf="employeeForm?.get('lastName')?.hasError('pattern') && employeeForm?.get('firstName')?.touched">
+                        Invalid format. Only letters and spaces are allowed.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="department" class="form-label custom-label">Department:</label>
+                    <select class="form-select custom-input" id="department" formControlName="department">
+                        <option value="" disabled selected>Select department</option>
+                        <option value="HR">Human Resources</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="Finance">Finance</option>
+                    </select>
+                    <div class="invalid-feedback small"
+                        *ngIf="employeeForm.get('department')?.hasError('required') && employeeForm.get('department')?.touched">
+                        Department is required.
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label custom-label">Email:</label>
+                    <input type="text" class="form-control custom-input" id="email"
+                        pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                        formControlName="email" placeholder="Enter email">
+                    <div class="invalid-feedback small"
+                        *ngIf="employeeForm.get('email')?.hasError('required') && employeeForm.get('email')?.touched">
+                        Email is required.
+                    </div>
+                    <div class="invalid-feedback small"
+                        *ngIf="employeeForm.get('email')?.hasError('email') && employeeForm.get('email')?.touched">
+                        Invalid email format.
+                    </div>
+                    <div class="invalid-feedback small" *ngIf="duplicateEmailError">
+                        Duplicate email found. Please use a different email.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label custom-label">Gender:</label>
+                    <div class="d-flex">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="male" value="male"
+                                formControlName="gender">
+                            <label class="form-check-label radio-checkbox-font-size" for="male">Male</label>
+                        </div>
+                        <div class="form-check mx-3">
+                            <input class="form-check-input" type="radio" id="female" value="female"
+                                formControlName="gender">
+                            <label class="form-check-label radio-checkbox-font-size" for="female">Female</label>
+                        </div>
+                    </div>
+                    <div class="invalid-feedback small"
+                        *ngIf="employeeForm.get('gender')?.hasError('required') && employeeForm.get('gender')?.touched">
+                        Gender is required.
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3 mt-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="permanent" formControlName="permanent">
+                        <label class="form-check-label radio-checkbox-font-size" for="permanent">Permanent
+                            Employee</label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-3">Add Employee</button>
+        </form>
+        <div class="alert alert-success mt-3" role="alert" *ngIf="showSuccessAlert">
+            Employee successfully added.
+        </div>
+        <div class="alert alert-success mt-3" role="alert" *ngIf="showUpdatedRecordAlert">
+            Employee updated successfully!
+        </div>
+    </div>
+</div>
